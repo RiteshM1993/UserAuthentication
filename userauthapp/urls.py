@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import LoginApiView,hello_world_api
+from .views import LoginApiView,hello_world_api,LogoutApiView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login', LoginApiView.as_view(),name="login"),
-    path('api/helloworldapi', hello_world_api)
+    path('api/helloworldapi', hello_world_api),
+    path('api/logout', LogoutApiView.as_view(),name="logout")
 
 ]

@@ -1,5 +1,7 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny
@@ -40,6 +42,36 @@ class LoginApiView(APIView):
         queryset.save()
         return Response({'token': token.key},
                         status=HTTP_200_OK)
+
+
+
+
+
+class LogoutApiView(APIView):
+    """
+       View for user logout
+    """
+
+    http_method_names = ['post']
+
+    permission_classes = [AllowAny, ]
+
+    def post(self, request):
+        return self.logout(request)
+
+    def logout(self, request):
+        try:
+            request.user.auth_token.delete()
+        except (AttributeError, ObjectDoesNotExist):
+            pass
+
+        logout(request)
+
+        return Response({"success": ("Successfully logged out.")},
+                        status=status.HTTP_200_OK)
+
+
+
 
 @csrf_exempt
 @api_view(["GET"])
