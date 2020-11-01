@@ -14,6 +14,9 @@ from userdetails.models import ValidUser,InValidUser
 from django.contrib.auth.models import User
 
 class LoginApiView(APIView):
+    """
+    View for user authtication
+    """
 
     http_method_names = ['post']
 
@@ -41,5 +44,11 @@ class LoginApiView(APIView):
 @csrf_exempt
 @api_view(["GET"])
 def hello_world_api(request):
+
+    """
+    API to test login with or without token
+    :param request:
+    :return: data
+    """
     data = {'data': "Hello World Api"}
     return Response(data, status=HTTP_200_OK)
